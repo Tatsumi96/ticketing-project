@@ -17,19 +17,33 @@ api.interceptors.response.use(
   (res) => res,
   async (error) => {
     const original = error.config;
-    if (error.response?.status === 401 && !original._retry) {
+    const isAuthRequest = original.url?.includes('/auth/login/') || original.url?.includes('/auth/token/refresh/');
+
+    if (error.response?.status === 401 && !original._retry && !isAuthRequest) {
       original._retry = true;
       const refresh = localStorage.getItem('refresh_token');
+
       if (refresh) {
         try {
+          console.debug('Token expiré, tentative de rafraîchissement...');
           const { data } = await axios.post(`${API_URL}/auth/token/refresh/`, { refresh });
+          
           localStorage.setItem('access_token', data.access);
+          if (data.refresh) {
+            localStorage.setItem('refresh_token', data.refresh);
+          }
+          
           original.headers.Authorization = `Bearer ${data.access}`;
+          console.debug('Rafraîchissement réussi, reprise de la requête.');
           return api(original);
-        } catch {
+        } catch (refreshError) {
+          console.error('Échec du rafraîchissement du token:', refreshError);
           localStorage.clear();
           window.location.href = '/login';
         }
+      } else {
+        localStorage.clear();
+        window.location.href = '/login';
       }
     }
     return Promise.reject(error);

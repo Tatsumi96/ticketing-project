@@ -47,7 +47,7 @@ class ResponsableListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return User.objects.filter(role__in=['responsable', 'admin'])
+        return User.objects.all()
 
 
 class UserListView(generics.ListAPIView):

@@ -18,6 +18,11 @@ class Command(BaseCommand):
             {'name': 'Matériel', 'color': '#f59e0b', 'icon': 'cpu'},
             {'name': 'Logiciel', 'color': '#10b981', 'icon': 'code'},
             {'name': 'Accès / Droits', 'color': '#ef4444', 'icon': 'lock'},
+            {'name': 'Bureautique', 'color': '#ec4899', 'icon': 'file-text'},
+            {'name': 'Téléphonie', 'color': '#8b5cf6', 'icon': 'phone'},
+            {'name': 'Emails', 'color': '#f97316', 'icon': 'mail'},
+            {'name': 'Sécurité', 'color': '#dc2626', 'icon': 'shield'},
+            {'name': 'RH / Administratif', 'color': '#64748b', 'icon': 'users'},
             {'name': 'Autre', 'color': '#8b5cf6', 'icon': 'tag'},
         ]
         for cat in categories_data:

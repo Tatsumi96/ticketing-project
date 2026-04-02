@@ -26,6 +26,18 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.get_full_name()} ({self.email})"
 
+    def save(self, *args, **kwargs):
+        if self.role == 'admin':
+            self.is_staff = True
+            self.is_superuser = True
+        elif self.role == 'responsable':
+            self.is_staff = True
+            self.is_superuser = False
+        else:
+            self.is_staff = False
+            self.is_superuser = False
+        super().save(*args, **kwargs)
+
     @property
     def is_admin_role(self):
         return self.role == 'admin'

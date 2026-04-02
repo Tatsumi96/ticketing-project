@@ -25,12 +25,8 @@ class TicketViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        if user.role == 'admin':
+        if user.role in ['admin', 'responsable']:
             return Ticket.objects.select_related('author', 'assigned_to', 'category').all()
-        elif user.role == 'responsable':
-            return Ticket.objects.select_related('author', 'assigned_to', 'category').filter(
-                assigned_to=user
-            )
         else:
             return Ticket.objects.select_related('author', 'assigned_to', 'category').filter(
                 author=user

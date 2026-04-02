@@ -30,7 +30,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['id', 'ticket', 'author', 'author_id', 'content',
                   'is_internal', 'is_solution_step', 'step_number', 'created_at', 'updated_at']
-        read_only_fields = ['id', 'created_at', 'updated_at', 'author']
+        read_only_fields = ['id', 'ticket', 'created_at', 'updated_at', 'author']
 
     def create(self, validated_data):
         validated_data['author'] = self.context['request'].user
